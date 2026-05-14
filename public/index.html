@@ -24,7 +24,8 @@
             <div class="search-container">
                 <form id="analyze-form">
                     <div class="input-wrapper">
-                        <input type="text" id="text-input" placeholder="분석하고 싶은 문장을 입력하세요 (2-500자)" autocomplete="off">
+                        <input type="text" id="text-input" placeholder="분석하고 싶은 문장을 입력하세요 (2-500자)" autocomplete="off" maxlength="500">
+                        <span id="char-count" class="char-count">0/500</span>
                         <button type="submit" id="submit-btn">분석하기</button>
                     </div>
                 </form>
@@ -69,6 +70,6 @@
         </div>
     </footer>
 
-    <script src="/script.js"></script>
+    <script src="/app.js"></script>
 </body>
 </html>

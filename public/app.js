@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('analyze-form');
     const input = document.getElementById('text-input');
+    const charCount = document.getElementById('char-count');
     const submitBtn = document.getElementById('submit-btn');
     const loading = document.getElementById('loading');
     const resultContainer = document.getElementById('result-container');
@@ -12,18 +13,34 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const exampleBtns = document.querySelectorAll('.example-btn');
 
+    // Update character count
+    input.addEventListener('input', () => {
+        const length = input.value.length;
+        charCount.textContent = `${length}/500`;
+        
+        if (length > 500) {
+            charCount.style.color = '#c62828';
+        } else {
+            charCount.style.color = 'var(--color-gray)';
+        }
+    });
+
     // Handle form submission
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const text = input.value.trim();
 
-        // Validation
-        if (!text || text.length < 2) {
-            showError('최소 2자 이상 입력해주세요.');
+        // Validation based on PRD 3.1
+        if (!text) {
+            showError('분석할 문장을 입력해주세요.');
+            return;
+        }
+        if (text.length < 2) {
+            showError('2자 이상 입력해주세요.');
             return;
         }
         if (text.length > 500) {
-            showError('최대 500자까지 입력 가능합니다.');
+            showError('500자 이하로 입력해주세요.');
             return;
         }
 
@@ -34,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     exampleBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             input.value = btn.textContent;
+            input.dispatchEvent(new Event('input')); // Update char count
             analyzeSentiment(btn.textContent);
         });
     });
